@@ -1,15 +1,13 @@
 import React, {useState} from "react";
 import Task from "./Task";
-function TaskList({task}) {
-
-
+function TaskList(props) {
+  const{tasks , onDelete} =props
   return (
     <div className="tasks">
-       <ul>
-      {task.map((task) => (
-        <Task key={task.id} text={task.text} category={task.category}/>
-      ))}
-    </ul>
+       { tasks.map((task, index) => (
+      <Task key={index} text={task.text} category={task.category}  onDelete={() => onDelete(task)}/>
+      ))
+     }
     </div>
   );
 }

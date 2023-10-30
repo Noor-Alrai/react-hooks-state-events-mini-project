@@ -7,26 +7,28 @@ console.log("Here's the data you're working with");
 console.log({ CATEGORIES, TASKS });
 
 function App() {
-  const [task, setTasks] =useState(TASKS)
+  const [tasks, setTasks] =useState(TASKS)
   const [selectedCategory, setSelectedCategory] = useState("All");
   function addTask(newTask){
-     setTasks([...task , newTask ])
+    
+     setTasks([...tasks , newTask])
   }
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
+  const handleDeleteTask = (taskToDelete) => {
+    setTasks(tasks.filter((task) => task !== taskToDelete));
+  };
 
-  const filterdTask = selectedCategory === "All" ? task : task.filter(task => task.category === selectedCategory)
+  const filterdTask = selectedCategory === "All" ?  tasks : tasks.filter(task => task.category === selectedCategory)
   
   return (
     <div className="App">
       <h2>My tasks</h2>
       <CategoryFilter onCategoryChange={handleCategoryChange} categories={CATEGORIES} selectedCategory={selectedCategory} />
-      <ul>{filterdTask.map(task =>{
-        return <li key={task.text}>{task.text}</li>
-      })} </ul>
+   
       <NewTaskForm onTaskFormSubmit={addTask} />
-      <TaskList task={task} />
+      <TaskList tasks={filterdTask} onDelete={handleDeleteTask} />
     </div>
   );
 }
